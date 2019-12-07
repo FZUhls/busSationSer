@@ -19,6 +19,17 @@ public class Bus implements Serializable {
     @Column(name = "brand")
     private String brand;
 
+    @Column(name = "max_passen")
+    private Long maxPassen;
+
+    public Long getMaxPassen() {
+        return maxPassen;
+    }
+
+    public void setMaxPassen(Long maxPassen) {
+        this.maxPassen = maxPassen;
+    }
+
     public Long getId() {
         return id;
     }

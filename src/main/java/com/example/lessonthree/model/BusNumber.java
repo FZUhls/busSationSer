@@ -2,6 +2,7 @@ package com.example.lessonthree.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 
 @Entity
 @Table(name = "bus_number")
@@ -27,6 +28,49 @@ public class BusNumber implements Serializable {
     @Column(name = "ticket_cost")
     private Long ticketCost;
 
+    @Column(name = "dep_time")
+    private String depTime;
+
+    @Column(name = "arr_time")
+    private String arrTime;
+
+    @Column(name = "platform")
+    private String platform;
+
+    @Column(name = "date")
+    private String  date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDepTime() {
+        return depTime;
+    }
+
+    public void setDepTime(String depTime) {
+        this.depTime = depTime;
+    }
+
+    public String getArrTime() {
+        return arrTime;
+    }
+
+    public void setArrTime(String arrTime) {
+        this.arrTime = arrTime;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
 
     public Long getId() {
         return id;

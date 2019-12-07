@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.swing.text.html.parser.Entity;
 import javax.validation.constraints.Null;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -51,34 +52,89 @@ public class BusController {
            return result;
        }
     }
-    //寻找车次
-    @RequestMapping(value = "/findbusnum",method = RequestMethod.GET)
-    public Result<List<BusNumber>> findBusNum(Long num){
-        if (num == null){
-            List<BusNumber> findList = busNumberJPA.findAll();
-            Result<List<BusNumber>> result = ResultUtil.success(findList);
-            return result;
+
+    //修改车次
+    @RequestMapping(value = "updatebusnum",method = RequestMethod.GET)
+    public Result updateBusNum(Long busNum,String destination,String licencePlate
+            , Long ticketCost, String depTime, String date, String arrTime, String platform){
+        BusNumber busNumber;
+        if (busNum == null){
+            return ResultUtil.error(3,"wrong parameter!");
         }else {
-            BusNumber find = busNumberJPA.findBusNumberByBusNum(num);
-            if (find!=null){
-                return ResultUtil.success(find);
-            }else {
+            busNumber = busNumberJPA.findBusNumberByBusNum(busNum);
+            if(busNumber == null){
                 return ResultUtil.error(2,"Nofind");
+            }else {
+                if (destination!=null && !destination.equals("")){
+                    busNumber.setDestination(destination);
+                }
+                if (licencePlate!=null && !licencePlate.equals("")){
+                    busNumber.setLicencePlate(licencePlate);
+                }
+                if (ticketCost!=null){
+                    busNumber.setTicketCost(ticketCost);
+                }
+                if (depTime!=null && !depTime.equals("")){
+                    busNumber.setDepTime(depTime);
+                }
+                if (date!=null && !date.equals("")){
+                    busNumber.setDate(date);
+                }
+                if (arrTime!=null && !arrTime.equals("")){
+                    busNumber.setArrTime(arrTime);
+                }
+                if (platform!=null && !platform.equals("")){
+                    System.out.println("do this code"+platform);
+                    busNumber.setPlatform(platform);
+                }
+                return ResultUtil.success(busNumberJPA.save(busNumber));
             }
+        }
+    }
+    //查询车次
+    @RequestMapping(value = "/findbusnum",method = RequestMethod.GET)
+    public Result<List<BusNumber>> findBusNum(String depTime, String date ,String departure){
+        List<BusNumber> busNumberList;
+        if ( departure!=null && !departure.equals("") ){
+//            System.out.println("Run depaeture find");
+            busNumberList = busNumberJPA.findBusNumberByDeparture(departure);
+            if (busNumberList==null || busNumberList.isEmpty()){
+                return ResultUtil.error(2,"Nofind");
+            }else {
+                return ResultUtil.success(busNumberList);
+            }
+        }else if (date!=null && depTime!=null && !depTime.equals("") && !date.equals("") ){
+            busNumberList = busNumberJPA.findBusNumberByDateAndDepTime(date,depTime);
+//            System.out.println("run date and depTine find");
+            if (busNumberList==null || busNumberList.isEmpty()){
+                /*if (busNumberList!=null){
+                    System.out.println(busNumberList);
+                }*/
+                return ResultUtil.error(2,"Nofind");
+            }else {
+                return ResultUtil.success(busNumberList);
+            }
+        }else {
+            busNumberList = busNumberJPA.findAll();
+            return ResultUtil.success(busNumberList);
         }
     }
     //增加车次
     @RequestMapping(value = "/addbusnum",method = RequestMethod.GET)
     public Result addBusNum(BusNumber entity){
-
         if (busNumberJPA.findBusNumberByBusNum(entity.getBusNum())!=null){
             return ResultUtil.error(3,"exist already");
-        }
-        BusNumber isDo = busNumberJPA.save(entity);
-        if(isDo!=null){
-            return ResultUtil.success(isDo);
         }else {
-            return ResultUtil.error(2,"add error");
+            if (busJPA.findBusByLicencePlate(entity.getLicencePlate())==null){
+                return ResultUtil.error(2,"We don't have this bus");
+            }else {
+                BusNumber isDo = busNumberJPA.save(entity);
+                if(isDo!=null){
+                    return ResultUtil.success(isDo);
+                }else {
+                    return ResultUtil.error(2,"add error");
+                }
+            }
         }
     }
     //删除车次

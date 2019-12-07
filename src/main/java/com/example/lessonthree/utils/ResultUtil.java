@@ -21,4 +21,11 @@ public class ResultUtil {
         result.setMsg(msg);
         return result;
     }
+
+    public static Result wrongParame(){
+        Result result = new Result();
+        result.setCode(101);
+        result.setMsg("Wrong Parame");
+        return  result;
+    }
 }
