@@ -93,7 +93,7 @@ public class BusController {
     }
     //查询车次
     @RequestMapping(value = "/findbusnum",method = RequestMethod.GET)
-    public Result<List<BusNumber>> findBusNum(String depTime, String date ,String departure){
+    public Result<List<BusNumber>> findBusNum(Long busNum,String depTime, String date ,String departure){
         List<BusNumber> busNumberList;
         if ( departure!=null && !departure.equals("") ){
 //            System.out.println("Run depaeture find");
@@ -113,6 +113,13 @@ public class BusController {
                 return ResultUtil.error(2,"Nofind");
             }else {
                 return ResultUtil.success(busNumberList);
+            }
+        }else if (busNum!=null){
+
+            if(busNumberJPA.findBusNumberByBusNum(busNum)!=null){
+                return ResultUtil.success(busNumberJPA.findBusNumberByBusNum(busNum));
+            }else {
+                return ResultUtil.error(2,"Nofind");
             }
         }else {
             busNumberList = busNumberJPA.findAll();
