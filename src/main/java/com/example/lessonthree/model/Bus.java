@@ -13,9 +13,6 @@ public class Bus implements Serializable {
     @Column(name = "licence_plate")
     private String licencePlate;
 
-    @Column(name ="size")
-    private String size;
-
     @Column(name = "brand")
     private String brand;
 
@@ -64,14 +61,6 @@ public class Bus implements Serializable {
 
     public void setLicencePlate(String licencePlate) {
         this.licencePlate = licencePlate;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
     }
 
     public String getBrand() {

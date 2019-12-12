@@ -199,19 +199,18 @@ public class BusController {
 
     //修改车辆司机
     @RequestMapping(value = "/updatebus", method = RequestMethod.GET)
-    public Result updatebus(Long driver_num) {
+    public Result updatebus(,Long driverNum) {
         Bus bus;
-        if (driver_num == null) {
+        if (driverNum == null) {
             return ResultUtil.error(3, "wrong parameter!");
         }
-//        else {
-//            bus = busJPA.findBusByLicencePlate();
-//            if (bus == null) {
-//                return ResultUtil.error(2, "Nofind");
-//            } else {
-//                return ResultUtil.success(bus);
-//            }
-//        }
-        return ResultUtil.success();
+        else {
+            bus = busJPA.findBusByDriverNum(driverNum);
+            if (bus == null) {
+                return ResultUtil.error(2, "Nofind");
+            } else {
+                return ResultUtil.success(bus);
+            }
+        }
     }
 }
