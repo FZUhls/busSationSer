@@ -30,6 +30,24 @@ public class Bus implements Serializable {
         this.maxPassen = maxPassen;
     }
 
+    @Column(name = "driver_num")
+    private Long driverNum;
+
+    public Long getDriverNum() {
+        return driverNum;
+    }
+
+    public void setDriverNum(Long driverNum) {
+        this.driverNum = driverNum;
+    }
+
+    @Column(name = "driver_name")
+    private String driver_name;
+
+    public String getDrivername() {
+        return driver_name;
+    }
+
     public Long getId() {
         return id;
     }

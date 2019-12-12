@@ -11,4 +11,5 @@ public interface BusJPA
             JpaSpecificationExecutor<Bus>,
         Serializable {
     Bus findBusByLicencePlate(String licencePlate);
+    Bus findBusByDriverNum(Long driverNum);
 }
