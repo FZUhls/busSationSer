@@ -39,10 +39,14 @@ public class Bus implements Serializable {
     }
 
     @Column(name = "driver_name")
-    private String driver_name;
+    private String driverName;
 
-    public String getDrivername() {
-        return driver_name;
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
     }
 
     public Long getId() {

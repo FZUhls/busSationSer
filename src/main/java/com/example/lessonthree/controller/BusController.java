@@ -202,20 +202,26 @@ public class BusController {
         }
     }
 
-    //修改车辆司机
+    //修改车辆信息
     @RequestMapping(value = "/updatebus", method = RequestMethod.GET)
-    public Result updatebus(,Long driverNum) {
+    public Result updatebus(String licencePlate,Long driverNum) {
         Bus bus;
         if (driverNum == null) {
             return ResultUtil.error(3, "wrong parameter!");
         }
         else {
-            bus = busJPA.findBusByDriverNum(driverNum);
+            bus = busJPA.findBusByLicencePlate(licencePlate);
             if (bus == null) {
                 return ResultUtil.error(2, "Nofind");
             } else {
-                return ResultUtil.success(bus);
+                bus.setDriverNum(driverNum);
+                if(busJPA.save(bus)!=null){
+                    return ResultUtil.success(bus);
+                }else {
+                    return ResultUtil.error(3,"update error");
+                }
             }
         }
     }
+    
 }
