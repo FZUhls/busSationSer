@@ -87,7 +87,12 @@ public class BusController {
                     System.out.println("do this code"+platform);
                     busNumber.setPlatform(platform);
                 }
-                return ResultUtil.success(busNumberJPA.save(busNumber));
+                if (busJPA.findBusByLicencePlate(busNumber.getLicencePlate())!=null){
+                    busNumber.setSeatNum(busJPA.findBusByLicencePlate(busNumber.getLicencePlate()).getMaxPassen());
+                    return ResultUtil.success(busNumberJPA.save(busNumber));
+                }else {
+                    return ResultUtil.error(3,"no this bus");
+                }
             }
         }
     }
@@ -196,7 +201,6 @@ public class BusController {
             return ResultUtil.error(2,"Nofind");
         }
     }
-
 
 
 }

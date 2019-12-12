@@ -40,6 +40,28 @@ public class BusNumber implements Serializable {
     @Column(name = "date")
     private String  date;
 
+    @Column(name = "seat_num")
+    private Long seatNum;
+
+    @Column(name = "passenger_num")
+    private int passengerNum;
+
+    public Long getSeatNum() {
+        return seatNum;
+    }
+
+    public void setSeatNum(Long seatNum) {
+        this.seatNum = seatNum;
+    }
+
+    public int getPassengerNum() {
+        return passengerNum;
+    }
+
+    public void setPassengerNum(int passengerNum) {
+        this.passengerNum = passengerNum;
+    }
+
     public String getDate() {
         return date;
     }

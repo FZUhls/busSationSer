@@ -16,4 +16,5 @@ public interface BusNumberJPA extends
     BusNumber findBusNumberByBusNum(Long busNum);//使用车次号查询
     List<BusNumber> findBusNumberByDeparture(String departure);//定义使用出发地查询的方法
     List<BusNumber> findBusNumberByDateAndDepTime(String date,String depTime);//定义出发时间查询
+
 }
