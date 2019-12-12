@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.io.Serializable;
 
-public interface ticketJPA extends JpaRepository<Ticket,Long>,
+public interface TicketJPA extends JpaRepository<Ticket,Long>,
         JpaSpecificationExecutor<Ticket>,
         Serializable {
 }

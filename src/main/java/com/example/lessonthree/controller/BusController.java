@@ -1,13 +1,8 @@
 package com.example.lessonthree.controller;
 
 
-import com.example.lessonthree.jpa.AdminJPA;
-import com.example.lessonthree.jpa.BusJPA;
-import com.example.lessonthree.jpa.BusNumberJPA;
-import com.example.lessonthree.model.Administrator;
-import com.example.lessonthree.model.Bus;
-import com.example.lessonthree.model.BusNumber;
-import com.example.lessonthree.model.Result;
+import com.example.lessonthree.jpa.*;
+import com.example.lessonthree.model.*;
 import com.example.lessonthree.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +26,13 @@ public class BusController {
     BusNumberJPA busNumberJPA;
     @Autowired
     BusJPA busJPA;
+    @Autowired
+    ConductorJPA conductorJPA;
+    @Autowired
+    DriverJPA driverJPA;
+    @Autowired
+    TicketJPA ticketJPA;
+
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public Result Login(Administrator entity) {
@@ -159,11 +161,12 @@ public class BusController {
     }
 
     //增加车辆
-    @RequestMapping(value = "/busadd", method = RequestMethod.GET)
+    @RequestMapping(value = "/addbus", method = RequestMethod.GET)
     public Result busAdd(Bus entity) {
         if (busJPA.findBusByLicencePlate(entity.getLicencePlate()) != null) {
             return ResultUtil.error(3, "exist already");
         }
+
         Bus isDo = busJPA.save(entity);
         if (isDo != null) {
             return ResultUtil.success(isDo);
@@ -223,5 +226,109 @@ public class BusController {
             }
         }
     }
-    
+
+    //增加售票员
+    @RequestMapping(value = "/addcondutor",method = RequestMethod.GET)
+    public Result addCondutor(Conductor conductor){
+        if (conductorJPA.findConductorByConNum(conductor.getConNum())!=null){
+            return ResultUtil.error(2,"already exist");
+        }else {
+            return ResultUtil.success(conductorJPA.save(conductor));
+        }
+    }
+    //删除售票员
+    @RequestMapping(value = "/deletecondutor",method = RequestMethod.GET)
+    public Result deleteCondutor(Long conNum){
+        if (conductorJPA.findConductorByConNum(conNum)!=null){
+            conductorJPA.delete(conductorJPA.findConductorByConNum(conNum));
+            return ResultUtil.success();
+        }else {
+            return ResultUtil.error(2,"Nofind");
+        }
+    }
+    //查询售票员
+    @RequestMapping(value = "/findcondutor",method = RequestMethod.GET)
+    public Result<List<Conductor>> findcondutor(Long conNum){
+        if (conNum !=null){
+            Conductor conductor = conductorJPA.findConductorByConNum(conNum);
+            if (conductor!=null){
+                return ResultUtil.success(conductor);
+            }else {
+                return ResultUtil.error(2,"Nofind");
+            }
+        }else {
+            return ResultUtil.success(conductorJPA.findAll());
+        }
+    }
+
+    //更新售票员
+    @RequestMapping(value = "/updatecondutor",method = RequestMethod.GET)
+    public Result updateCondutor(Long conNum,Long basicSalary,Long pushMoney,Long ticketNum){
+        Conductor conductor;
+        if (conductorJPA.findConductorByConNum(conNum)!=null){
+            conductor = conductorJPA.findConductorByConNum(conNum);
+            conductor.setBasicSalary(basicSalary);
+            conductor.setPushMoney(pushMoney);
+            conductor.setTicketNum(ticketNum);
+            return ResultUtil.success(conductorJPA.save(conductor));
+        }else {
+            return ResultUtil.error(2,"Nofind");
+        }
+    }
+    //增加司机
+    @RequestMapping(value = "/adddriver",method = RequestMethod.GET)
+    public Result addDriver(Driver driver){
+        if(driverJPA.findDriverByDriverNum(driver.getDriverNum())!=null){
+            return ResultUtil.error(2,"already exist");
+        }else {
+            return ResultUtil.success(driverJPA.save(driver));
+        }
+    }
+    //删除司机
+    @RequestMapping(value = "deletedriver",method = RequestMethod.GET)
+    public Result deleteDriver(Long driverNum){
+        if(driverJPA.findDriverByDriverNum(driverNum)!=null){
+            driverJPA.delete(driverJPA.findDriverByDriverNum(driverNum));
+            return ResultUtil.success();
+        }else {
+            return ResultUtil.error(2,"Nofind");
+        }
+    }
+
+    //查询司机
+    @RequestMapping(value = "finddriver",method = RequestMethod.GET)
+    public Result<List<Driver>> findDriver(Long driverNum){
+        Driver driver;
+        if(driverNum !=null){
+            driver = driverJPA.findDriverByDriverNum(driverNum);
+            if (driver!=null){
+                return ResultUtil.success(driver);
+            }else {
+                return ResultUtil.error(2,"Nofind");
+            }
+        }else {
+            return ResultUtil.success(driverJPA.findAll());
+        }
+    }
+    //修改司机
+    @RequestMapping(value = "updatedriver",method = RequestMethod.GET)
+    public Result updateDriver(Long driverNum,String name,Long salary){
+        Driver driver;
+        if (driverJPA.findDriverByDriverNum(driverNum)!=null){
+            driver = driverJPA.findDriverByDriverNum(driverNum);
+            driver.setDriverNum(driverNum);
+            driver.setName(name);
+            driver.setSalary(salary);
+            driverJPA.save(driver);
+            return ResultUtil.success(driver);
+        }else {
+            return ResultUtil.error(2,"Nofind");
+        }
+    }
+    //增加车票
+    @RequestMapping(value = "addticket",method = RequestMethod.GET)
+    public Result addticket(Ticket ticket){
+        return ResultUtil.error(2,"no result");
+    }
+
 }
