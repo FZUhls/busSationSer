@@ -207,7 +207,7 @@ public class BusController {
 
     //修改车辆信息
     @RequestMapping(value = "/updatebus", method = RequestMethod.GET)
-    public Result updatebus(String licencePlate,Long driverNum) {
+    public Result updatebus(String licencePlate,String  driverNum) {
         Bus bus;
         if (driverNum == null) {
             return ResultUtil.error(3, "wrong parameter!");
@@ -218,6 +218,7 @@ public class BusController {
                 return ResultUtil.error(2, "Nofind");
             } else {
                 bus.setDriverNum(driverNum);
+                bus.setDriverName(driverJPA.findDriverByDriverNum(driverNum).getName());
                 if(busJPA.save(bus)!=null){
                     return ResultUtil.success(bus);
                 }else {
@@ -285,8 +286,8 @@ public class BusController {
         }
     }
     //删除司机
-    @RequestMapping(value = "deletedriver",method = RequestMethod.GET)
-    public Result deleteDriver(Long driverNum){
+    @RequestMapping(value = "/deletedriver",method = RequestMethod.GET)
+    public Result deleteDriver(String driverNum){
         if(driverJPA.findDriverByDriverNum(driverNum)!=null){
             driverJPA.delete(driverJPA.findDriverByDriverNum(driverNum));
             return ResultUtil.success();
@@ -296,8 +297,8 @@ public class BusController {
     }
 
     //查询司机
-    @RequestMapping(value = "finddriver",method = RequestMethod.GET)
-    public Result<List<Driver>> findDriver(Long driverNum){
+    @RequestMapping(value = "/finddriver",method = RequestMethod.GET)
+    public Result<List<Driver>> findDriver(String driverNum){
         Driver driver;
         if(driverNum !=null){
             driver = driverJPA.findDriverByDriverNum(driverNum);
@@ -311,8 +312,8 @@ public class BusController {
         }
     }
     //修改司机
-    @RequestMapping(value = "updatedriver",method = RequestMethod.GET)
-    public Result updateDriver(Long driverNum,String name,Long salary){
+    @RequestMapping(value = "/updatedriver",method = RequestMethod.GET)
+    public Result updateDriver(String driverNum,String name,Long salary){
         Driver driver;
         if (driverJPA.findDriverByDriverNum(driverNum)!=null){
             driver = driverJPA.findDriverByDriverNum(driverNum);
@@ -326,7 +327,7 @@ public class BusController {
         }
     }
     //增加车票
-    @RequestMapping(value = "addticket",method = RequestMethod.GET)
+    @RequestMapping(value = "/addticket",method = RequestMethod.GET)
     public Result addticket(Ticket ticket){
         return ResultUtil.error(2,"no result");
     }

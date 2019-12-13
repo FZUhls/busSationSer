@@ -28,13 +28,13 @@ public class Bus implements Serializable {
     }
 
     @Column(name = "driver_num")
-    private Long driverNum;
+    private String  driverNum;
 
-    public Long getDriverNum() {
+    public String getDriverNum() {
         return driverNum;
     }
 
-    public void setDriverNum(Long driverNum) {
+    public void setDriverNum(String driverNum) {
         this.driverNum = driverNum;
     }
 

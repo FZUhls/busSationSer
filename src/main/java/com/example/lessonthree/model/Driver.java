@@ -12,7 +12,7 @@ public class Driver implements Serializable {
     private Long id;
 
     @Column(name = "driver_num")
-    private Long driverNum;
+    private String driverNum;
 
     @Column(name = "name")
     private String name;
@@ -28,11 +28,11 @@ public class Driver implements Serializable {
         this.id = id;
     }
 
-    public Long getDriverNum() {
+    public String getDriverNum() {
         return driverNum;
     }
 
-    public void setDriverNum(Long driverNum) {
+    public void setDriverNum(String driverNum) {
         this.driverNum = driverNum;
     }
 

@@ -10,5 +10,5 @@ public interface DriverJPA extends
         JpaRepository<Driver,Long>,
         JpaSpecificationExecutor<Driver>,
         Serializable {
-    Driver findDriverByDriverNum(Long driverNum);
+    Driver findDriverByDriverNum(String driverNum);
 }
